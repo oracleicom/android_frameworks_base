@@ -148,6 +148,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
+import android.hardware.input.InputManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -1181,7 +1182,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // Allow a system property to override this. Used by the emulator.
             // See also hasNavigationBar().
 //            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
-            String navBarOverride = 0;
+            String navBarOverride = "0";
             if (! "".equals(navBarOverride)) {
                 if      (navBarOverride.equals("1")) mHasNavigationBar = false;
                 else if (navBarOverride.equals("0")) mHasNavigationBar = true;
