@@ -190,7 +190,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     static final int LONG_PRESS_HOME_NOTHING = 0;
     static final int LONG_PRESS_HOME_RECENT_DIALOG = 1;
     static final int LONG_PRESS_HOME_RECENT_SYSTEM_UI = 2;
-    static final int LONG_PRESS_HOME_MENU = 3;
 
     // wallpaper is at the bottom, though the window manager may move it.
     static final int WALLPAPER_LAYER = 2;
@@ -295,7 +294,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     final Object mServiceAquireLock = new Object();
     Vibrator mVibrator; // Vibrator for giving feedback of orientation changes
     SearchManager mSearchManager;
-    InputManager mInputManager;
 
     // Vibrator pattern for haptic feedback of a long press.
     long[] mLongPressVibePattern;
@@ -880,8 +878,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private void handleLongPressOnHome() {
-    	mLongPressOnHomeBehavior = LONG_PRESS_HOME_MENU;
-    	
         // We can't initialize this in init() since the configuration hasn't been loaded yet.
         if (mLongPressOnHomeBehavior < 0) {
             mLongPressOnHomeBehavior
@@ -914,8 +910,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 // re-acquire status bar service next time it is needed.
                 mStatusBarService = null;
             }
-        } else {
-        	mInputManager.injectInputEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU), InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
         }
     }
 
@@ -1002,7 +996,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mDeskDockIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
-        mInputManager = (InputManager)context.getSystemService(Context.INPUT_SERVICE);
         PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
         mBroadcastWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "PhoneWindowManager.mBroadcastWakeLock");
@@ -1180,8 +1173,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     com.android.internal.R.bool.config_showNavigationBar);
             // Allow a system property to override this. Used by the emulator.
             // See also hasNavigationBar().
-//            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
-            String navBarOverride = 0;
+            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
             if (! "".equals(navBarOverride)) {
                 if      (navBarOverride.equals("1")) mHasNavigationBar = false;
                 else if (navBarOverride.equals("0")) mHasNavigationBar = true;

@@ -147,9 +147,6 @@ public class NavigationBarView extends LinearLayout {
     public NavigationBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        // hide it!
-        getLayoutParams().height = 0;
-        
         mHidden = false;
 
         mDisplay = ((WindowManager)context.getSystemService(
