@@ -147,7 +147,7 @@ public class NavigationBarView extends LinearLayout {
     public NavigationBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        mHidden = false;
+        mHidden = true;
 
         mDisplay = ((WindowManager)context.getSystemService(
                 Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -310,7 +310,7 @@ public class NavigationBarView extends LinearLayout {
     public void setHidden(final boolean hide) {
         if (hide == mHidden) return;
 
-        mHidden = hide;
+        mHidden = true;
         Slog.d(TAG,
             (hide ? "HIDING" : "SHOWING") + " navigation bar");
 
